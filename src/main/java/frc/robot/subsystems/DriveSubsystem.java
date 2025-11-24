@@ -23,45 +23,44 @@ public class DriveSubsystem extends SubsystemBase {
 
 
     // The motors on the left side of the drive.
-    private final TalonSRX        leftPrimaryMotor         = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID);
-    private final TalonSRX        leftFollowerMotor        = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID + 1);
+    private final TalonSRX leftPrimaryMotor = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID);
+    private final TalonSRX leftFollowerMotor = null; // todo: fixme
 
     // The motors on the right side of the drive.
-    private final TalonSRX            rightPrimaryMotor  = new TalonSRX(DriveConstants.RIGHT_MOTOR_CAN_ID);
-    private final TalonSRX            rightFollowerMotor = new TalonSRX(DriveConstants.RIGHT_MOTOR_CAN_ID + 1);
-    
-    private final DigitalInput    targetSensor             = new DigitalInput(0);
+    private final TalonSRX rightPrimaryMotor = null; // todo: fixme
+    private final TalonSRX rightFollowerMotor = new TalonSRX(DriveConstants.RIGHT_MOTOR_CAN_ID + 1);
+
+    private final DigitalInput targetSensor = new DigitalInput(0);
 
     // Conversion from volts to distance in cm
     // Volts distance
     // 0.12 30.5 cm
     // 2.245 609.6 cm
-    private final AnalogInput     ultrasonicDistanceSensor = new AnalogInput(0);
+    private final AnalogInput ultrasonicDistanceSensor = new AnalogInput(0);
 
-    private final double          ULTRASONIC_M             = (609.6 - 30.5) / (2.245 - .12);
-    private final double          ULTRASONIC_B             = 609.6 - ULTRASONIC_M * 2.245;
-
-
-    private double                    leftSpeed          = 0;
-    private double                    rightSpeed         = 0;
-
-    private double                    leftEncoderOffset  = 0;
-    private double                    rightEncoderOffset = 0;
+    private final double ULTRASONIC_M = (609.6 - 30.5) / (2.245 - .12);
+    private final double ULTRASONIC_B = 609.6 - ULTRASONIC_M * 2.245;
 
 
-    private double                    gyroHeadingOffset  = 0;
-    private double                    gyroPitchOffset    = 0;
+    private double leftSpeed = 0;
+    private double rightSpeed = 0;
+
+    private double leftEncoderOffset = 0;
+    private double rightEncoderOffset = 0;
+
 
     /*
      * Simulation fields
      */
-    private Field2d                   field              = null;
-    private DifferentialDrivetrainSim drivetrainSim      = null;
-    private double                    simAngle           = 0;
-    private double                    simLeftEncoder     = 0;
-    private double                    simRightEncoder    = 0;
+    private Field2d field = null;
+    private DifferentialDrivetrainSim drivetrainSim = null;
+    private double simAngle = 0;
+    private double simLeftEncoder = 0;
+    private double simRightEncoder = 0;
 
-    /** Creates a new DriveSubsystem. */
+    /**
+     * Creates a new DriveSubsystem.
+     */
     public DriveSubsystem() {
 
 
@@ -69,16 +68,14 @@ public class DriveSubsystem extends SubsystemBase {
         // result in both sides moving forward. Depending on how your robot's
         // gearbox is constructed, you might have to invert the left side instead.
         leftPrimaryMotor.setInverted(DriveConstants.LEFT_MOTOR_INVERTED);
-        leftFollowerMotor.setInverted(DriveConstants.LEFT_MOTOR_INVERTED);
+//       todo: fixme: set inversion for follower
 
         leftPrimaryMotor.setNeutralMode(NeutralMode.Brake);
         leftFollowerMotor.setNeutralMode(NeutralMode.Brake);
 
         leftFollowerMotor.follow(leftPrimaryMotor);
 
-
-        rightPrimaryMotor.setInverted(DriveConstants.RIGHT_MOTOR_INVERTED);
-        rightFollowerMotor.setInverted(DriveConstants.RIGHT_MOTOR_INVERTED);
+// todo: fixme: set inversion for right motors
 
         rightPrimaryMotor.setNeutralMode(NeutralMode.Brake);
         rightFollowerMotor.setNeutralMode(NeutralMode.Brake);
@@ -92,10 +89,10 @@ public class DriveSubsystem extends SubsystemBase {
             SmartDashboard.putData("Field", field);
 
             drivetrainSim = DifferentialDrivetrainSim.createKitbotSim(
-                KitbotMotor.kDoubleNEOPerSide, // Double NEO per side
-                KitbotGearing.k10p71, // 10.71:1
-                KitbotWheelSize.kSixInch, // 6" diameter wheels.
-                null // No measurement noise.
+                    KitbotMotor.kDoubleNEOPerSide, // Double NEO per side
+                    KitbotGearing.k10p71, // 10.71:1
+                    KitbotWheelSize.kSixInch, // 6" diameter wheels.
+                    null // No measurement noise.
             );
         }
     }
@@ -104,14 +101,10 @@ public class DriveSubsystem extends SubsystemBase {
 
         double ultrasonicVoltage = ultrasonicDistanceSensor.getVoltage();
 
-        double distanceCm        = ULTRASONIC_M * ultrasonicVoltage + ULTRASONIC_B;
+        double distanceCm = ULTRASONIC_M * ultrasonicVoltage + ULTRASONIC_B;
 
         return Math.round(distanceCm);
     }
-
-
-
-
 
 
     /**
@@ -146,12 +139,14 @@ public class DriveSubsystem extends SubsystemBase {
         return simRightEncoder + rightEncoderOffset;
     }
 
-    /** Resets the drive encoders to zero. */
+    /**
+     * Resets the drive encoders to zero.
+     */
     public void resetEncoders() {
 
         // Reset the offsets so that the encoders are zeroed.
-        leftEncoderOffset  = 0;
-        leftEncoderOffset  = -getLeftEncoder();
+        leftEncoderOffset = 0;
+        leftEncoderOffset = -getLeftEncoder();
 
         rightEncoderOffset = 0;
         rightEncoderOffset = -getRightEncoder();
@@ -165,7 +160,7 @@ public class DriveSubsystem extends SubsystemBase {
      */
     public void setMotorSpeeds(double leftSpeed, double rightSpeed) {
 
-        this.leftSpeed  = leftSpeed;
+        this.leftSpeed = leftSpeed;
         this.rightSpeed = rightSpeed;
 
         leftPrimaryMotor.set(ControlMode.PercentOutput, leftSpeed);
@@ -175,7 +170,9 @@ public class DriveSubsystem extends SubsystemBase {
         // motors
     }
 
-    /** Safely stop the subsystem from moving */
+    /**
+     * Safely stop the subsystem from moving
+     */
     public void stop() {
         setMotorSpeeds(0, 0);
     }
@@ -209,8 +206,8 @@ public class DriveSubsystem extends SubsystemBase {
             // When the robot is enabled, calculate the position
             // Set the inputs to the system.
             drivetrainSim.setInputs(
-                leftSpeed * RobotController.getInputVoltage(),
-                rightSpeed * RobotController.getInputVoltage());
+                    leftSpeed * RobotController.getInputVoltage(),
+                    rightSpeed * RobotController.getInputVoltage());
 
             // Advance the model by 20 ms. Note that if you are running this
             // subsystem in a separate thread or have changed the nominal timestep
@@ -219,8 +216,7 @@ public class DriveSubsystem extends SubsystemBase {
 
             // Move the robot on the simulated field
             field.setRobotPose(drivetrainSim.getPose());
-        }
-        else {
+        } else {
             // When the robot is disabled, allow the user to move
             // the robot on the simulation field.
             drivetrainSim.setPose(field.getRobotPose());
@@ -229,10 +225,10 @@ public class DriveSubsystem extends SubsystemBase {
         // Update the gyro simulation offset
         // NOTE: the pose has the opposite rotational direction from the system
         // pose degrees are counter-clockwise positive. weird.
-        simAngle        = -drivetrainSim.getPose().getRotation().getDegrees();
+        simAngle = -drivetrainSim.getPose().getRotation().getDegrees();
 
         // Update the encoders with the simulation offsets.
-        simLeftEncoder  = drivetrainSim.getLeftPositionMeters() * 100 / DriveConstants.CM_PER_ENCODER_COUNT;
+        simLeftEncoder = drivetrainSim.getLeftPositionMeters() * 100 / DriveConstants.CM_PER_ENCODER_COUNT;
         simRightEncoder = drivetrainSim.getRightPositionMeters() * 100 / DriveConstants.CM_PER_ENCODER_COUNT;
     }
 
@@ -242,7 +238,7 @@ public class DriveSubsystem extends SubsystemBase {
         StringBuilder sb = new StringBuilder();
 
         sb.append(this.getClass().getSimpleName()).append(" : ")
-            .append(", Drive dist ").append(Math.round(getEncoderDistanceCm() * 10) / 10d).append("cm");
+                .append(", Drive dist ").append(Math.round(getEncoderDistanceCm() * 10) / 10d).append("cm");
 
         return sb.toString();
     }
