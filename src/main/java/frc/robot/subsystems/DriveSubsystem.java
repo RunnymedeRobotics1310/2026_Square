@@ -54,7 +54,6 @@ public class DriveSubsystem extends SubsystemBase {
         }
     }
 
-    private final LightsSubsystem     lightsSubsystem;
 
     // The motors on the left side of the drive.
     private final TalonSRX        leftPrimaryMotor         = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID);
@@ -100,9 +99,8 @@ public class DriveSubsystem extends SubsystemBase {
     private double                    simRightEncoder    = 0;
 
     /** Creates a new DriveSubsystem. */
-    public DriveSubsystem(LightsSubsystem lightsSubsystem) {
+    public DriveSubsystem() {
 
-        this.lightsSubsystem = lightsSubsystem;
 
         // We need to invert one side of the drivetrain so that positive voltages
         // result in both sides moving forward. Depending on how your robot's
@@ -340,7 +338,6 @@ public class DriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
 
-        lightsSubsystem.setDriveMotorSpeeds(leftSpeed, rightSpeed);
 
         SmartDashboard.putNumber("Right Motor", rightSpeed);
         SmartDashboard.putNumber("Left  Motor", leftSpeed);

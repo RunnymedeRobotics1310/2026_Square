@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.auto.AutoCommand;
 import frc.robot.commands.drive.DefaultDriveCommand;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.LightsSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,8 +23,7 @@ public class RobotContainer {
     // Subsystems
     // Declarre the lighting subsystem first and pass it into the other subsystem
     // constructors so that they can indicate status information on the lights
-    private final LightsSubsystem lightsSubsystem = new LightsSubsystem();
-    private final DriveSubsystem  driveSubsystem  = new DriveSubsystem(lightsSubsystem);
+    private final DriveSubsystem  driveSubsystem  = new DriveSubsystem();
     // FIXME: add the coral subsystem
 
     // Driver and operator controllers
@@ -42,11 +40,6 @@ public class RobotContainer {
         // FIXME: add the coral subsystem
         operatorInput.configureButtonBindings(driveSubsystem);
 
-        // Add a trigger to flash the LEDs in sync with the
-        // RSL light for 5 flashes when the robot is enabled
-        // This can happen also if there is a brown-out of the RoboRIO.
-        new Trigger(() -> RobotState.isEnabled())
-            .onTrue(new InstantCommand(() -> lightsSubsystem.setRSLFlashCount(5)));
     }
 
     /**
