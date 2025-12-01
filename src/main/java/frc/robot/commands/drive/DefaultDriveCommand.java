@@ -1,5 +1,6 @@
 package frc.robot.commands.drive;
 
+import edu.wpi.first.math.MathUtil;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.DriveConstants.DriveMode;
 import frc.robot.OperatorInput;
@@ -54,7 +55,7 @@ public class DefaultDriveCommand extends LoggingCommand {
             double leftSpeed  = operatorInput.getLeftSpeed();
             double rightSpeed = operatorInput.getRightSpeed();
 
-            setTankDriveMotorSpeeds(leftSpeed, rightSpeed, driveScalingFactor);
+            driveSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
 
         }
         else {
@@ -62,7 +63,11 @@ public class DefaultDriveCommand extends LoggingCommand {
             double speed = operatorInput.getSpeed();
             double turn  = operatorInput.getTurn();
 
-            setArcadeDriveMotorSpeeds(speed, turn, driveScalingFactor);
+            // TODO: Implement Real Code!
+            double left = speed;
+            double right = turn;
+
+            driveSubsystem.setMotorSpeeds(left, right);
         }
 
     }
@@ -76,49 +81,6 @@ public class DefaultDriveCommand extends LoggingCommand {
     public void end(boolean interrupted) {
 
         logCommandEnd(interrupted);
-    }
-
-
-    /**
-     * Set the motor speeds based on tank drive.
-     *
-     * @param leftSpeed value
-     * @param rightSpeed value
-     * @param driveScalingFactor
-     */
-    private void setTankDriveMotorSpeeds(double leftSpeed, double rightSpeed, double driveScalingFactor) {
-
-        double speed = (leftSpeed + rightSpeed) / 2.0;
-        double turn  = (leftSpeed - rightSpeed) / 2.0;
-
-        setArcadeDriveMotorSpeeds(speed, turn, driveScalingFactor);
-    }
-
-
-    /**
-     * Calculate the scaled arcade drive speeds from the passed in values. In arcade mode, the turn
-     * is cut in half to help control the robot more consistently.
-     *
-     * @param speed
-     * @param turn
-     * @param driveScalingFactor
-     */
-    private void setArcadeDriveMotorSpeeds(double speed, double turn, double driveScalingFactor) {
-
-        // Cut the spin in half because it will be applied to both sides.
-        // Spinning at 1.0, should apply 0.5 to each side.
-        turn = turn / 2.0;
-
-        // Keep the turn, and reduce the forward speed where required to have the
-        // maximum turn.
-        if (Math.abs(speed) + Math.abs(turn) > 1.0) {
-            speed = (1.0 - Math.abs(turn)) * Math.signum(speed);
-        }
-
-        double leftSpeed  = (speed + turn) * driveScalingFactor;
-        double rightSpeed = (speed - turn) * driveScalingFactor;
-
-        driveSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
     }
 
 }

@@ -24,10 +24,10 @@ public class DriveSubsystem extends SubsystemBase {
 
     // The motors on the left side of the drive.
     private final TalonSRX leftPrimaryMotor = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID);
-    private final TalonSRX leftFollowerMotor = null; // todo: fixme
+    private final TalonSRX leftFollowerMotor = new TalonSRX(DriveConstants.LEFT_MOTOR_CAN_ID+1);
 
     // The motors on the right side of the drive.
-    private final TalonSRX rightPrimaryMotor = null; // todo: fixme
+    private final TalonSRX rightPrimaryMotor = new TalonSRX(DriveConstants.RIGHT_MOTOR_CAN_ID);
     private final TalonSRX rightFollowerMotor = new TalonSRX(DriveConstants.RIGHT_MOTOR_CAN_ID + 1);
 
     private final DigitalInput targetSensor = new DigitalInput(0);
@@ -68,7 +68,11 @@ public class DriveSubsystem extends SubsystemBase {
         // result in both sides moving forward. Depending on how your robot's
         // gearbox is constructed, you might have to invert the left side instead.
         leftPrimaryMotor.setInverted(DriveConstants.LEFT_MOTOR_INVERTED);
-//       todo: fixme: set inversion for follower
+        leftFollowerMotor.setInverted(DriveConstants.LEFT_MOTOR_INVERTED);
+
+        rightPrimaryMotor.setInverted(DriveConstants.RIGHT_MOTOR_INVERTED);
+        rightFollowerMotor.setInverted(DriveConstants.RIGHT_MOTOR_INVERTED);
+
 
         leftPrimaryMotor.setNeutralMode(NeutralMode.Brake);
         leftFollowerMotor.setNeutralMode(NeutralMode.Brake);
