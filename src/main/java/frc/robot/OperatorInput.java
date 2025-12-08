@@ -76,6 +76,9 @@ public class OperatorInput extends SubsystemBase {
                 driveSubsystem.resetEncoders();
             }));
 
+//        new Trigger(() -> driverController.getAButton())
+//                .onTrue(// Need a new DriveTimeCmd() here));
+
     }
 
     /*
