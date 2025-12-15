@@ -60,13 +60,23 @@ public class DefaultDriveCommand extends LoggingCommand {
         }
         else {
 
-            double speed = operatorInput.getSpeed();
-            double turn  = operatorInput.getTurn();
+            // 1. Deadband
+            double speed = MathUtil.applyDeadband(operatorInput.getSpeed(), 0.1);
+            double turn  = MathUtil.applyDeadband(operatorInput.getTurn(), 0.1);
 
-            // TODO: Implement Real Code!
-            double left = speed;
-            double right = turn;
+            // 2. Square Inputs (Keep the sign!)
+            speed = Math.copySign(speed * speed, speed);
+            turn = Math.copySign(turn * turn, turn);
 
+            // 3. Calculate Mix
+            double left = speed + turn;
+            double right = speed - turn;
+
+            // 4. Clamp (Required for manual math)
+            left = MathUtil.clamp(left, -1.0, 1.0);
+            right = MathUtil.clamp(right, -1.0, 1.0);
+
+            // 5. Output
             driveSubsystem.setMotorSpeeds(left, right);
         }
 

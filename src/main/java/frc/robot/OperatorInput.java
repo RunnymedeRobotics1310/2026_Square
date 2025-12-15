@@ -11,6 +11,7 @@ import frc.robot.Constants.DriveConstants.DriveMode;
 import frc.robot.Constants.OperatorInputConstants;
 import frc.robot.commands.CancelCommand;
 import frc.robot.commands.GameController;
+import frc.robot.commands.drive.DriveTimeCommand;
 import frc.robot.subsystems.DriveSubsystem;
 
 /**
@@ -76,8 +77,8 @@ public class OperatorInput extends SubsystemBase {
                 driveSubsystem.resetEncoders();
             }));
 
-//        new Trigger(() -> driverController.getAButton())
-//                .onTrue(// Need a new DriveTimeCmd() here));
+        new Trigger(() -> driverController.getAButton())
+                .onTrue(new DriveTimeCommand(driveSubsystem, 2.0));
 
     }
 

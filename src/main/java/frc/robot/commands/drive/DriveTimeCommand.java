@@ -32,25 +32,25 @@ public class DriveTimeCommand extends LoggingCommand {
     public void initialize() {
         logCommandStart();
 
-        // Initialize code here
+        timer.restart();
     }
 
     @Override
     public void execute() {
 
-        // Execute code here
+        driveSubsystem.setMotorSpeeds(0.2, 0.2);
     }
 
     @Override
     public boolean isFinished() {
 
-        // isFinished Code here
-        return false;
+        return timer.hasElapsed(duration);
     }
 
     @Override
     public void end(boolean interrupted) {
-        // End code here
+
+        driveSubsystem.setMotorSpeeds(0.0, 0.0);
     }
 
 }
