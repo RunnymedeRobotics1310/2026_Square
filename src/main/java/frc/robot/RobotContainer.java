@@ -36,7 +36,6 @@ public class RobotContainer {
             new DefaultDriveCommand(operatorInput, driveSubsystem));
 
         // Configure the button bindings - pass in all subsystems
-        // FIXME: add the coral subsystem
         operatorInput.configureButtonBindings(driveSubsystem);
 
     }

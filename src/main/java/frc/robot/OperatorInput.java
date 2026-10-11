@@ -17,7 +17,7 @@ import frc.robot.subsystems.DriveSubsystem;
 /**
  * The DriverController exposes all driver functions
  * <p>
- * Extend SubsystemBase in order to have a built in periodic call to support SmartDashboard updates
+ * Extend SubsystemBase in order to have a built-in periodic call to support SmartDashboard updates
  */
 public class OperatorInput extends SubsystemBase {
 
