@@ -62,6 +62,9 @@ public class Robot extends TimedRobot {
         double leftY = -xboxController.getLeftY(); // Example: Get left joystick Y-axis value
         double speed = deadband(leftY);
 
+        // FIXME: what to put in here:
+        //            ↓
+        leftMotor.set(0);
 
         SmartDashboard.putNumber("Left Y", leftY); // Shows us the value of the left joystick
     }
