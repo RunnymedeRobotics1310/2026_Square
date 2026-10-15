@@ -4,8 +4,10 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.hardware.TalonFXS;
+import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkLowLevel;
-import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
@@ -18,8 +20,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
     private XboxController xboxController;
-    private SparkMax leftMotor;
-    private SparkMax rightMotor;
+    private TalonFXS leftLeaderMotor;
+    private TalonFXS leftFollowerMotor;
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -30,8 +32,13 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         xboxController = new XboxController(0); // Initialize XboxController on port 0
-        leftMotor =
-                new SparkMax(30, SparkLowLevel.MotorType.kBrushless); // Initialize SparkMax on port 30 for NEO motor
+        leftLeaderMotor =
+                new TalonFXS(10); // Initialize SparkFlex on port 30 for motor
+        leftFollowerMotor =
+                new TalonFXS(11); // Initialize SparkFlex on port 31 for motor
+
+        // right leader id: 20
+        // right follower id: 21
     }
 
     /**
@@ -63,8 +70,9 @@ public class Robot extends TimedRobot {
         double speed = deadband(leftY);
 
         // FIXME: what to put in here:
-        //            ↓
-        leftMotor.set(0);
+        //                  ↓
+        leftLeaderMotor.set(0);
+        leftFollowerMotor.set(0);
 
         SmartDashboard.putNumber("Left Y", leftY); // Shows us the value of the left joystick
     }
@@ -98,5 +106,6 @@ public class Robot extends TimedRobot {
         // FIXME: Implement a better deadband function
 
         return value;
+
     }
 }
