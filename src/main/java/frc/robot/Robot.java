@@ -4,10 +4,8 @@
 
 package frc.robot;
 
-import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.hardware.TalonFXS;
-import com.revrobotics.spark.SparkFlex;
-import com.revrobotics.spark.SparkLowLevel;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
@@ -20,8 +18,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends TimedRobot {
     private XboxController xboxController;
-    private TalonFXS leftLeaderMotor;
-    private TalonFXS leftFollowerMotor;
+    private TalonSRX leftLeaderMotor;
+    private TalonSRX leftFollowerMotor;
 
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -33,9 +31,9 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         xboxController = new XboxController(0); // Initialize XboxController on port 0
         leftLeaderMotor =
-                new TalonFXS(10); // Initialize SparkFlex on port 30 for motor
+                new TalonSRX(10); // Initialize SparkFlex on port 30 for motor
         leftFollowerMotor =
-                new TalonFXS(11); // Initialize SparkFlex on port 31 for motor
+                new TalonSRX(11); // Initialize SparkFlex on port 31 for motor
 
         // right leader id: 20
         // right follower id: 21
@@ -69,10 +67,10 @@ public class Robot extends TimedRobot {
         double leftY = -xboxController.getLeftY(); // Example: Get left joystick Y-axis value
         double speed = deadband(leftY);
 
-        // FIXME: what to put in here:
-        //                  ↓
-        leftLeaderMotor.set(0);
-        leftFollowerMotor.set(0);
+        //                       FIXME: what to put in here:
+        //                                             ↓
+        leftLeaderMotor.set(ControlMode.PercentOutput, 0);
+        leftFollowerMotor.set(ControlMode.PercentOutput, 0);
 
         SmartDashboard.putNumber("Left Y", leftY); // Shows us the value of the left joystick
     }
