@@ -21,6 +21,9 @@ public class Robot extends TimedRobot {
     private TalonSRX leftLeaderMotor;
     private TalonSRX leftFollowerMotor;
 
+    private TalonSRX rightLeaderMotor;
+    private TalonSRX rightFollowerMotor;
+
     /**
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
@@ -31,12 +34,20 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         xboxController = new XboxController(0); // Initialize XboxController on port 0
         leftLeaderMotor =
-                new TalonSRX(10); // Initialize SparkFlex on port 30 for motor
+                new TalonSRX(10); // Initialize TalonSRX on port 30 for motor
         leftFollowerMotor =
-                new TalonSRX(11); // Initialize SparkFlex on port 31 for motor
+                new TalonSRX(11); // Initialize TalonSRX on port 31 for motor
+
 
         // right leader id: 20
         // right follower id: 21
+        rightLeaderMotor =
+                new TalonSRX(20); // Initialize TalonSRX on port 30 for motor
+        rightFollowerMotor =
+                new TalonSRX(21); // Initialize TalonSRX on port 31 for motor
+
+        rightLeaderMotor.setInverted(true);
+        rightFollowerMotor.setInverted(true);
     }
 
     /**
@@ -65,14 +76,19 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         double leftY = -xboxController.getLeftY(); // Example: Get left joystick Y-axis value
-        double speed = deadband(leftY);
+        double leftX = xboxController.getLeftX();
 
-        //                       FIXME: what to put in here:
-        //                                             ↓
-        leftLeaderMotor.set(ControlMode.PercentOutput, 0);
-        leftFollowerMotor.set(ControlMode.PercentOutput, 0);
+        double speed = deadband(leftY); // Why might we need this, control click "deadband" to go to the function
+        double turn = leftX; // do we want to deadband this?
 
-        SmartDashboard.putNumber("Left Y", leftY); // Shows us the value of the left joystick
+        leftLeaderMotor.set(ControlMode.PercentOutput, speed + turn);
+        leftFollowerMotor.set(ControlMode.PercentOutput, speed + turn);
+        rightLeaderMotor.set(ControlMode.PercentOutput, speed - turn);
+        rightFollowerMotor.set(ControlMode.PercentOutput, speed - turn);
+
+        System.out.println(leftY); // Shows us the Y value of the left joystick
+        // FIXME: make a statement to display the other values:
+
     }
 
     /** This function is called once when the robot is disabled. */
@@ -102,6 +118,9 @@ public class Robot extends TimedRobot {
     private double deadband(double value) {
 
         // FIXME: Implement a better deadband function
+
+        // slow speed = fine control
+        // fast speed = just go fast
 
         return value;
 
