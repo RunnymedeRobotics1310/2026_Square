@@ -51,5 +51,4 @@ public class DriveTimeCommand extends LoggingCommand {
     public void end(boolean interrupted) { // FIXME: what should happen when the command stops?
 
     }
-
 }

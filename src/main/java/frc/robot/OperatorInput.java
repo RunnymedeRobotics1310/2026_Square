@@ -14,6 +14,8 @@ import frc.robot.commands.GameController;
 import frc.robot.commands.drive.DriveTimeCommand;
 import frc.robot.subsystems.DriveSubsystem;
 
+import java.util.function.BooleanSupplier;
+
 /**
  * The DriverController exposes all driver functions
  * <p>
@@ -71,14 +73,9 @@ public class OperatorInput extends SubsystemBase {
         new Trigger(() -> isCancel())
             .onTrue(new CancelCommand(this, driveSubsystem));
 
-        // Gyro and Encoder Reset
-        new Trigger(() -> driverController.getBackButton())
-            .onTrue(new InstantCommand(() -> {
-                driveSubsystem.resetEncoders();
-            }));
+        // FIXME: what do we put here to make the command go when you press "A" on the controller
+        // hint: look at the cancel trigger right above this
 
-        new Trigger(() -> driverController.getAButton())
-                .onTrue(new DriveTimeCommand(driveSubsystem, 2.0));
 
     }
 
