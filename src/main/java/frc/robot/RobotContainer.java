@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.drive.DefaultDriveCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.WinchSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,7 +25,9 @@ public class RobotContainer {
     // Declarre the lighting subsystem first and pass it into the other subsystem
     // constructors so that they can indicate status information on the lights
     private final DriveSubsystem  driveSubsystem  = new DriveSubsystem();
-    // FIXME: add the coral subsystem
+    private final PneumaticSubsystem pneumaticSubsystem = new PneumaticSubsystem();
+    private final WinchSubsystem winchSubsystem = new WinchSubsystem();
+
 
     // Driver and operator controllers
     private final OperatorInput   operatorInput   = new OperatorInput();
@@ -36,8 +40,7 @@ public class RobotContainer {
             new DefaultDriveCommand(operatorInput, driveSubsystem));
 
         // Configure the button bindings - pass in all subsystems
-        // FIXME: add the coral subsystem
-        operatorInput.configureButtonBindings(driveSubsystem);
+        operatorInput.configureButtonBindings(driveSubsystem, pneumaticSubsystem, winchSubsystem);
 
     }
 

@@ -13,6 +13,8 @@ import frc.robot.commands.CancelCommand;
 import frc.robot.commands.GameController;
 import frc.robot.commands.drive.DriveTimeCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.WinchSubsystem;
 
 /**
  * The DriverController exposes all driver functions
@@ -65,7 +67,7 @@ public class OperatorInput extends SubsystemBase {
      *
      * @param driveSubsystem
      */
-    public void configureButtonBindings(DriveSubsystem driveSubsystem) {
+    public void configureButtonBindings(DriveSubsystem driveSubsystem, PneumaticSubsystem pneumaticSubsystem, WinchSubsystem winchSubsystem) {
 
         // Cancel Command - cancels all running commands on all subsystems
         new Trigger(() -> isCancel())
@@ -76,9 +78,6 @@ public class OperatorInput extends SubsystemBase {
             .onTrue(new InstantCommand(() -> {
                 driveSubsystem.resetEncoders();
             }));
-
-        new Trigger(() -> driverController.getAButton())
-                .onTrue(new DriveTimeCommand(driveSubsystem, 2.0));
 
     }
 
@@ -99,6 +98,14 @@ public class OperatorInput extends SubsystemBase {
      */
     public boolean isCancel() {
         return driverController.getStartButton();
+    }
+
+    public boolean isReload(){
+        return driverController.getBButton();
+    }
+
+    public boolean isLaunch(){
+        return driverController.getRightTriggerAxis() > 0.5;
     }
 
     /*

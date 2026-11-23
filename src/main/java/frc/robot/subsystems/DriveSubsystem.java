@@ -79,8 +79,6 @@ public class DriveSubsystem extends SubsystemBase {
 
         leftFollowerMotor.follow(leftPrimaryMotor);
 
-// todo: fixme: set inversion for right motors
-
         rightPrimaryMotor.setNeutralMode(NeutralMode.Brake);
         rightFollowerMotor.setNeutralMode(NeutralMode.Brake);
 
