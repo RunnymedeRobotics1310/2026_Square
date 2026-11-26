@@ -56,16 +56,15 @@ public final class Constants {
         public static final double  DRIVE_SCALING_SLOW   = .3;
     }
 
-    public static final class CoralConstants {
+    public static final class BallConstants {
+        public static final int INTAKE_OUT_CHANNEL = 0; // forward
+        public static final int INTAKE_IN_CHANNEL = 1; // reverse
+        public static final int WINCH_ENGAGE_CHANNEL = 2; // forward
+        public static final int WINCH_DISENGAGE_CHANNEL = 3; // reverse
+        public static final int DRIVE_GEAR_ONE_CHANNEL = 4; // forward
+        public static final int DRIVE_GEAR_TWO_CHANNEL = 5; // reverse
 
-        public static final int ELEVATOR_MOTOR_CAN_ID = 30;
-        public static final int ARM_MOTOR_CAN_ID      = 31;
-        public static final int INTAKE_MOTOR_CAN_ID   = 32;
+        public static final int INTAKE_MOTOR_CANID = 10;
     }
 
-    public static final class LightsConstants {
-
-        public static final int LED_STRING_PWM_PORT = 9;
-        public static final int LED_STRING_LENGTH   = 60;
-    }
 }

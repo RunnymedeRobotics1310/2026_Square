@@ -11,10 +11,8 @@ import frc.robot.Constants.DriveConstants.DriveMode;
 import frc.robot.Constants.OperatorInputConstants;
 import frc.robot.commands.CancelCommand;
 import frc.robot.commands.GameController;
-import frc.robot.commands.drive.DriveTimeCommand;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem;
-import frc.robot.subsystems.WinchSubsystem;
+import frc.robot.subsystems.BallSubsystem;
 
 /**
  * The DriverController exposes all driver functions
@@ -67,7 +65,7 @@ public class OperatorInput extends SubsystemBase {
      *
      * @param driveSubsystem
      */
-    public void configureButtonBindings(DriveSubsystem driveSubsystem, PneumaticSubsystem pneumaticSubsystem, WinchSubsystem winchSubsystem) {
+    public void configureButtonBindings(DriveSubsystem driveSubsystem, BallSubsystem ballSubsystem) {
 
         // Cancel Command - cancels all running commands on all subsystems
         new Trigger(() -> isCancel())
